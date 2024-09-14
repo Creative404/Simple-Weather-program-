@@ -1,13 +1,14 @@
-import time
+from time import sleep
 import requests
+from unidecode import unidecode
 
 HIDDEN_API_XD = "9b2f90024cef0b54d1f8"
 day_checker = True
 weather_program = True
 
-time.sleep(0.1)
+sleep(0.1)
 print("\nWelcome in simple weather program\n")
-time.sleep(0.4)
+sleep(0.4)
 
 while weather_program:
 
@@ -21,10 +22,12 @@ while weather_program:
                 print("enter value in range 0-7")
         except ValueError:
             print("please type correct value\n")
-            time.sleep(0.1)
+            sleep(0.1)
 
-    time.sleep(0.1)
+    sleep(0.1)
     city = input("What city you want check?: ").lower()
+    city = unidecode(city)
+    city = city.replace(" ","-")
 
     for days in range(day+1):
         url = f"https://dobrapogoda24.pl/api/v1/weather/simple?city={city}&day={days}&token={HIDDEN_API_XD}"
@@ -37,7 +40,7 @@ while weather_program:
             night = weather['night']
 
             print(f"\n\ndate: {weather['date']}\n")
-            time.sleep(0.1)
+            sleep(0.1)
             print("Day:")
             print(f"temperature max: {day["temp_max"]} ℃")
             print(f"temperature min: {day["temp_min"]} ℃")
@@ -45,7 +48,7 @@ while weather_program:
             print(f"temperature (felt) min: {day["temp_felt_min"]} ℃")
             print(f"humidity: {day["humidity"]} %")
 
-            time.sleep(1)
+            sleep(1)
 
             print("\nNight:")
             print(f"temperature max: {night["temp_max"]} ℃")
@@ -69,23 +72,23 @@ while weather_program:
 
         elif connection.status_code == 404:
             print("Error 404: city not Found\n")
-            time.sleep(0.4)
+            sleep(0.4)
 
         elif connection.status_code == 401:
             weather_program = False
             Error = 401
             print("Error 401: Unauthorized or invalid API key\n")
-            time.sleep(0.4)
+            sleep(0.4)
 
         elif connection.status_code == 500:
             print("Error 500: Internal Server Error \n")
-            time.sleep(0.4)
+            sleep(0.4)
             weather_program = False
             Error = 500
 
         else:
             print("Error\n")
-            time.sleep(0.4)
+            sleep(0.4)
 
     day_checker = True
 
@@ -99,5 +102,5 @@ elif Error == 500:
     input("press any key to exit:")
 
 print("Thanks for using my simple weather program")
-time.sleep(1)
+sleep(1)
 exit()
